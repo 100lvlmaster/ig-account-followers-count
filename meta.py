@@ -5,8 +5,15 @@ from instaloader import (
     ProfileNotExistsException,
 )
 
+from fileoperations import clean_username
 
-def get_followers_count(username: str) -> int:
+
+def get_followers_count(username: str, users: list) -> int:
+    cleaned_username = clean_username(username)
+    for user in users:
+        if user["Instagramhandle"] == cleaned_username:
+            print("already exists")
+            return user["followers"]
     L = Instaloader()
     print(username)
     profile: Profile

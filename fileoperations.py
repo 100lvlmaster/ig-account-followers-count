@@ -1,12 +1,18 @@
 import csv
+from os.path import exists
 
-from meta import get_followers_count
 
-
-def read_users_csv(filename: str):
+def csv_to_list(filename: str):
+    file = exists(filename)
+    if not file:
+        return []
     a_csv_file = open(filename, "r")
     data = csv.DictReader(a_csv_file)
     users = list(data)
+    return users
+
+
+def clean_usernames(users: list):
     for user in users:
         ig_handle = user["Instagramhandle"]
         username = clean_username(ig_handle)
