@@ -31,7 +31,7 @@ def write_users_csv(filename: str, data: list):
 
 def clean_username(name: str) -> str:
     name = name.lower()
-    username: str = name.replace("@", "").replace("/", "").lower()
+    username: str = name.replace("@", "").replace("/", "")
     if name.startswith("http"):
         username = name.split("?")[0].strip("/").split("/")[-1]
     username = username.strip("@")
