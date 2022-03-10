@@ -3,31 +3,33 @@ from fileoperations import clean_usernames, csv_to_list
 from meta import get_followers_count
 
 
-filename: str = "campaign-leads.csv"
-existing_file: str = "campaign_leads_followers_count.csv"
-offset = 2853
+filename: str = "csv/campaign-leads.csv"
+existing_file: str = ""
+offset = 0
 
 
 def main():
     users = csv_to_list(filename)
-    users = clean_usernames(users)
     existing_list = csv_to_list(existing_file)
     users[0]["followers"] = ""
     keys = users[0].keys()
+    # Create csv and write csv if offset is 0
     if offset is not None and offset == 0:
-        with open("new-" + filename, "a+") as file:
+        with open("csv/new-" + filename, "a+") as file:
             writer = csv.DictWriter(file, keys)
             writer.writeheader()
             file.close()
-        # Cross checck followers in the list
-    for idx, user in enumerate(users):
-        if idx <= offset:
-            continue
-        ig_username = user["ig_username"]
-        user["followers"] = get_followers_count(
-            username=ig_username, users=existing_list
-        )
-        with open("new-" + filename, "a+") as file:
+        # Cross checc followers in the list
+    with open("csv/new-" + filename, "a+") as file:
+        for idx, user in enumerate(users):
+            if idx <= offset:
+                continue
+            username = user["Instagramhandle"]
+            print(idx)
+            print(username)
+            user["followers"] = get_followers_count(
+                username=username, users=existing_list
+            )
             writer = csv.DictWriter(file, keys)
             writer.writerow(user)
 
